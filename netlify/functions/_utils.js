@@ -9,6 +9,13 @@ function readCsv(filename) {
 }
 
 function readKeys() {
+  // Check environment variables first (Netlify dashboard)
+  const envToken = process.env.TELEGRAM_BOT_TOKEN;
+  const envChatId = process.env.TELEGRAM_CHAT_ID;
+  if (envToken && envChatId) {
+    return { bot_token: envToken, chat_id: envChatId };
+  }
+  // Fall back to keys.csv for local dev
   try {
     return Object.fromEntries(
       readCsv('keys.csv').map(row => [row.key, row.value])
