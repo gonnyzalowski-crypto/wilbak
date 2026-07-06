@@ -1,0 +1,16 @@
+{
+  "name": "wilbak-engineering",
+  "version": "1.0.0",
+  "description": "Wilbak Engineering website + WILBAK Shop",
+  "private": true,
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build step needed — static files served directly'"
+  },
+  "dependencies": {
+    "csv-parse": "^5.5.6"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.26.1"
+  }
+}

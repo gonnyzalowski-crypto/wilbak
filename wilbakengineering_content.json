@@ -1,0 +1,302 @@
+{
+  "site": "wilbakengineering.com",
+  "crawled_at": "2026-07-06T05:25:00Z",
+  "pages": [
+    {
+      "url": "https://wilbakengineering.com/",
+      "title": "Wilbak Engineering",
+      "headings": [
+        {
+          "level": 2,
+          "text": "Well-built. Ready to grow."
+        },
+        {
+          "level": 2,
+          "text": "Want to find out how much better your business could be doing?"
+        }
+      ],
+      "content": {
+        "hero_tagline": "Well-built. Ready to grow.",
+        "hero_subtext": "Most businesses are only using 20-40% of what they are capable of, held back by systems that were not built to handle growth.",
+        "cta_buttons": [
+          {
+            "text": "Get a Free Assessment",
+            "url": "https://wilbakengineering.com/contact/"
+          },
+          {
+            "text": "View Our Work",
+            "url": "https://wilbakengineering.com/projects/"
+          }
+        ]
+      },
+      "navigation": {
+        "main_menu": [
+          { "label": "About", "url": "https://wilbakengineering.com/about/" },
+          { "label": "Contact", "url": "https://wilbakengineering.com/contact/" },
+          { "label": "Projects", "url": "https://wilbakengineering.com/projects/" }
+        ],
+        "footer_explore": [
+          { "label": "About", "url": "https://wilbakengineering.com/about/" },
+          { "label": "Projects", "url": "https://wilbakengineering.com/projects/" },
+          { "label": "Ortho'M8 Platform", "url": "https://ortho-m8.com" }
+        ],
+        "footer_engage": [
+          { "label": "Contact Wilhelm", "url": "https://wilbakengineering.com/contact/" }
+        ],
+        "footer_legal": [
+          { "label": "Privacy Policy", "url": "https://wilbakengineering.com/legal/privacy/" },
+          { "label": "Terms & Conditions", "url": "https://wilbakengineering.com/legal/terms/" },
+          { "label": "Service Level Agreement", "url": "https://wilbakengineering.com/legal/sla/" }
+        ]
+      }
+    },
+    {
+      "url": "https://wilbakengineering.com/about/",
+      "title": "About | Wilbak Engineering",
+      "headings": [],
+      "content": {
+        "description": "We build and manage data centres and cloud systems for businesses that want to perform better.",
+        "tagline": "Reliable IT infrastructure for businesses that want to perform better."
+      },
+      "navigation": {
+        "main_menu": [
+          { "label": "About", "url": "https://wilbakengineering.com/about/" },
+          { "label": "Contact", "url": "https://wilbakengineering.com/contact/" },
+          { "label": "Projects", "url": "https://wilbakengineering.com/projects/" }
+        ]
+      }
+    },
+    {
+      "url": "https://wilbakengineering.com/contact/",
+      "title": "Contact | Wilbak Engineering",
+      "headings": [],
+      "content": {
+        "description": "Reliable IT infrastructure for businesses that want to perform better.",
+        "purpose": "Contact page for getting in touch with Wilhelm directly"
+      },
+      "navigation": {
+        "main_menu": [
+          { "label": "About", "url": "https://wilbakengineering.com/about/" },
+          { "label": "Contact", "url": "https://wilbakengineering.com/contact/" },
+          { "label": "Projects", "url": "https://wilbakengineering.com/projects/" }
+        ]
+      }
+    },
+    {
+      "url": "https://wilbakengineering.com/projects/",
+      "title": "Projects | Wilbak Engineering",
+      "headings": [
+        {
+          "level": 2,
+          "text": "Selected Projects"
+        },
+        {
+          "level": 2,
+          "text": "Ready to start a project?"
+        }
+      ],
+      "content": {
+        "section_title": "Selected Projects",
+        "cta_section": {
+          "heading": "Ready to start a project?",
+          "subtext": "Every project starts with a quick review. Get in touch and Wilhelm will reply within one business day.",
+          "buttons": [
+            {
+              "text": "Get in Touch",
+              "url": "https://wilbakengineering.com/contact/"
+            },
+            {
+              "text": "Contact Wilhelm",
+              "url": "https://wilbakengineering.com/contact/"
+            }
+          ]
+        },
+        "tagline": "Reliable IT infrastructure for businesses that want to perform better."
+      },
+      "navigation": {
+        "main_menu": [
+          { "label": "About", "url": "https://wilbakengineering.com/about/" },
+          { "label": "Contact", "url": "https://wilbakengineering.com/contact/" },
+          { "label": "Projects", "url": "https://wilbakengineering.com/projects/" }
+        ]
+      }
+    },
+    {
+      "url": "https://wilbakengineering.com/legal/privacy/",
+      "title": "Privacy Policy | Wilbak Engineering",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Privacy Policy"
+        },
+        {
+          "level": 2,
+          "text": "1. Overview"
+        },
+        {
+          "level": 2,
+          "text": "2. Information We Collect"
+        },
+        {
+          "level": 2,
+          "text": "3. Third-Party Sharing"
+        },
+        {
+          "level": 2,
+          "text": "4. Data Security"
+        },
+        {
+          "level": 2,
+          "text": "5. Your Rights & Contact"
+        }
+      ],
+      "content": {
+        "title": "Privacy Policy",
+        "description": "How Wilbak Engineering collects, uses, and protects your information.",
+        "last_updated": "March 26, 2026",
+        "sections": [
+          {
+            "number": 1,
+            "title": "Overview",
+            "body": "Wilbak Engineering Group (\"Wilbak\", \"we\", \"us\") cares about your privacy. This policy explains what information we collect from our website and services, how we use it, and how we keep it safe. By using our website or sending us an enquiry, you agree to the practices described here."
+          },
+          {
+            "number": 2,
+            "title": "Information We Collect",
+            "body": "We collect information you give us directly, such as your name, email address, phone number, and business details through our contact form. We also collect basic technical data from your browser (like IP address, device type, and pages visited) to understand how our site is used. For clients we work with, we may collect extra details needed to plan and deliver the agreed project."
+          },
+          {
+            "number": 3,
+            "title": "Third-Party Sharing",
+            "body": "We do not sell, rent, or trade your personal or business information. We may share limited data with trusted service providers (like hosting and email services) only to run our website and deliver our services, and they must keep it confidential. We may share information if required by law or to protect the rights and safety of Wilbak, our clients, or the public."
+          },
+          {
+            "number": 4,
+            "title": "Data Security",
+            "body": "We use standard security measures including encryption, access controls, and regular security reviews. Information submitted through our forms is stored in secure, access-controlled systems. While no system can be perfectly secure, we take data protection just as seriously as every project we deliver."
+          },
+          {
+            "number": 5,
+            "title": "Your Rights & Contact",
+            "body": "You can ask to see, correct, or delete your personal data at any time by contacting us at wilbakengineering.com/contact. We will respond within 30 days. We may update this policy from time to time, and any major changes will be posted on this page with a new date. If you keep using our website after an update, that means you accept the revised policy."
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://wilbakengineering.com/legal/terms/",
+      "title": "Terms & Conditions | Wilbak Engineering",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Terms & Conditions"
+        },
+        {
+          "level": 2,
+          "text": "1. Acceptance of Terms"
+        },
+        {
+          "level": 2,
+          "text": "2. Intellectual Property"
+        },
+        {
+          "level": 2,
+          "text": "3. Limitation of Liability"
+        },
+        {
+          "level": 2,
+          "text": "4. Website & Service Use"
+        },
+        {
+          "level": 2,
+          "text": "5. Changes to Terms"
+        }
+      ],
+      "content": {
+        "title": "Terms & Conditions",
+        "description": "The rules for using the Wilbak Engineering website and our services.",
+        "last_updated": "March 26, 2026",
+        "sections": [
+          {
+            "number": 1,
+            "title": "Acceptance of Terms",
+            "body": "By using the Wilbak Engineering website or working with us, you agree to these Terms and Conditions. If you do not agree, please stop using our website and services. These terms apply to everyone who visits our site or works with us, including through our website, forms, and service contracts."
+          },
+          {
+            "number": 2,
+            "title": "Intellectual Property",
+            "body": "All content on this website, including text, design, graphics, and our tools, belongs to Wilbak Engineering Group. This includes the Ortho'M8 platform and all related software. You may not copy, share, or use any content for commercial purposes without our written permission. Copying or reverse engineering our designs or platform is not allowed."
+          },
+          {
+            "number": 3,
+            "title": "Limitation of Liability",
+            "body": "Wilbak Engineering provides IT infrastructure services to a high standard. However, we cannot guarantee that our website is always error-free or available, and we are not responsible for losses caused by relying on information on this site. For any service contract, our responsibility is limited to what is agreed in that specific contract. Our total liability will not exceed the fees paid for the service in question."
+          },
+          {
+            "number": 4,
+            "title": "Website & Service Use",
+            "body": "You agree to use our website and services only for legal purposes. You must not try to access our systems without permission, introduce harmful code, or use automated tools to copy our content. Forms and enquiries are provided in good faith. We may decline any project without giving a reason."
+          },
+          {
+            "number": 5,
+            "title": "Changes to Terms",
+            "body": "We may update these Terms and Conditions at any time. Updated terms will be posted on this page with a new date. If you keep using our website or services after changes are made, that means you accept the new terms. For questions about these terms, please contact us through our contact page."
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://wilbakengineering.com/legal/sla/",
+      "title": "Service Level Agreement | Wilbak Engineering",
+      "headings": [
+        {
+          "level": 1,
+          "text": "Service Level Agreement"
+        },
+        {
+          "level": 2,
+          "text": "1. Uptime Commitment"
+        },
+        {
+          "level": 2,
+          "text": "2. Delivery Standards"
+        },
+        {
+          "level": 2,
+          "text": "3. Technical Support"
+        },
+        {
+          "level": 2,
+          "text": "4. Remedies & Credits"
+        }
+      ],
+      "content": {
+        "title": "Service Level Agreement",
+        "description": "Our promises for uptime, delivery, and support across all projects and contracts.",
+        "last_updated": "March 26, 2026",
+        "sections": [
+          {
+            "number": 1,
+            "title": "Uptime Commitment",
+            "body": "For systems we build and manage, we aim for at least 99.9% uptime each month. This covers the parts we directly manage as agreed in the project contract. Planned maintenance, events outside our control, and issues caused by third-party providers are not included in uptime calculations. We will let you know about planned maintenance in advance whenever possible."
+          },
+          {
+            "number": 2,
+            "title": "Delivery Standards",
+            "body": "Project Milestones: Delivery milestones are written into the project plan and tracked against an agreed timeline. Handover: All builds go through testing and documentation before being handed over. Response Times: Initial enquiries are answered within one business day. Change Requests: Requested changes are reviewed and scoped within three business days."
+          },
+          {
+            "number": 3,
+            "title": "Technical Support",
+            "body": "Clients work directly with their assigned engineer throughout the project. Urgent issues are addressed within 4 hours during business hours. General questions are answered within one business day. Support after delivery is agreed per project. We do not run a general helpdesk; all support is handled by your assigned engineer."
+          },
+          {
+            "number": 4,
+            "title": "Remedies & Credits",
+            "body": "If we fail to meet agreed uptime or delivery targets due to our own fault, we will find the cause and fix it at no extra cost. Service credits or other remedies are agreed on a case-by-case basis in the project contract. Credits do not apply to delays or outages caused by the client, third-party systems, or events outside our control."
+          }
+        ]
+      }
+    }
+  ]
+}

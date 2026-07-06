@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WILBAK Shop</title>
+  <meta name="description" content="WILBAK Shop — premium electronics and custom build computers.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/shop/css/shop.css">
+</head>
+<body>
+
+  <!-- Global Nav (matches main site) -->
+  <nav class="global-nav">
+    <div class="global-nav-inner">
+      <a href="/" class="global-nav-logo"><img src="/assets/logo.png" alt="Wilbak Engineering"></a>
+      <ul class="global-nav-links">
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/projects.html">Projects</a></li>
+        <li><a href="/shop">Shop</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+      <button class="nav-hamburger" aria-label="Menu" id="shopHamburger">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- Sub Nav -->
+  <div class="sub-nav">
+    <div class="sub-nav-inner">
+      <span class="sub-nav-title">Shop</span>
+      <ul class="sub-nav-links">
+        <li><a href="/" onclick="goHome();return false;">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li><button onclick="openSupport()" class="btn-pearl">Support</button></li>
+        <li><button id="themeToggle" class="btn-pearl" aria-label="Toggle theme">Theme</button></li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="shop-main">
+
+    <!-- 1. Landing -->
+    <section id="screen-landing" class="screen active">
+      <div class="shop-container">
+        <div class="shop-hero-grid">
+          <div class="shop-hero-text">
+            <h1 class="hero-display">Build Your Order</h1>
+            <p class="tagline" style="color:var(--color-primary);margin-top:12px;">WILBAK Shop</p>
+            <p class="lead-airy" style="margin-top:16px;color:var(--color-ink-muted-80);">Select the items you need, configure each one, and pay securely with Stripe or cryptocurrency.</p>
+            <div class="cta-row" style="justify-content:flex-start;">
+              <button onclick="goTo('builder')" class="btn-primary">Start Your Order</button>
+              <button onclick="goTo('custom')" class="btn-secondary">Custom Builds</button>
+            </div>
+          </div>
+          <div class="shop-hero-image">
+            <img src="/shop/assets/01.png" alt="WILBAK sales professional helping customers choose premium electronics" class="product-image">
+          </div>
+        </div>
+        <div class="shop-features-grid">
+          <div class="shop-feature-card">
+            <p class="caption-strong">Pick Products</p>
+            <p class="caption" style="color:var(--color-ink-muted-48);margin-top:4px;">Browse the full catalog</p>
+          </div>
+          <div class="shop-feature-card">
+            <p class="caption-strong">Configure</p>
+            <p class="caption" style="color:var(--color-ink-muted-48);margin-top:4px;">Customize each item</p>
+          </div>
+          <div class="shop-feature-card">
+            <p class="caption-strong">Pay Securely</p>
+            <p class="caption" style="color:var(--color-ink-muted-48);margin-top:4px;">Stripe or crypto</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Custom Builds -->
+    <section id="screen-custom" class="screen">
+      <div class="shop-container">
+        <button onclick="goBack()" class="shop-back-btn">← Back</button>
+        <div class="shop-banner">
+          <img src="/shop/assets/02.png" alt="WILBAK showroom with premium electronics and custom build stations" class="product-image">
+        </div>
+        <h2 class="display-md" style="margin-bottom:8px;">Custom Build Computers</h2>
+        <p style="color:var(--color-ink-muted-80);margin-bottom:24px;">Choose a pre-designed tier, then select a professional build. Each build can be upgraded during configuration.</p>
+        <div class="shop-filters">
+          <input id="customSearch" type="text" placeholder="Search builds, CPUs, GPUs, RAM, storage..." oninput="renderCustom()" class="shop-search-input">
+          <select id="customSort" onchange="renderCustom()" class="shop-select">
+            <option value="default">Sort by</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name">Name: A-Z</option>
+          </select>
+        </div>
+        <div id="customBuildList" class="shop-tiers-container"></div>
+        <div style="margin-top:24px;text-align:right;">
+          <button onclick="goTo('builder')" class="btn-primary">Browse Individual Parts →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Product Builder -->
+    <section id="screen-builder" class="screen">
+      <div class="shop-container">
+        <button onclick="goBack()" class="shop-back-btn">← Back</button>
+        <div class="shop-builder-header">
+          <div>
+            <h2 class="display-md" style="margin-bottom:4px;">Choose Products</h2>
+            <p style="color:var(--color-ink-muted-80);">Add items to your order. Quantities can be adjusted.</p>
+          </div>
+          <div class="shop-filter-row">
+            <label class="caption-strong">Category</label>
+            <select id="categoryFilter" onchange="renderBuilder()" class="shop-select">
+              <option value="all">All</option>
+            </select>
+          </div>
+        </div>
+        <div class="shop-filters">
+          <input id="productSearch" type="text" placeholder="Search by name, brand, specs, RAM, GPU, CPU..." oninput="renderBuilder()" class="shop-search-input">
+          <select id="productSort" onchange="renderBuilder()" class="shop-select">
+            <option value="default">Sort by</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name">Name: A-Z</option>
+          </select>
+        </div>
+
+        <div class="shop-builder-grid">
+          <div class="shop-builder-products">
+            <div id="productList" class="shop-product-list"></div>
+          </div>
+          <div class="shop-builder-sidebar">
+            <div class="shop-cart-panel">
+              <h3 class="body-strong" style="margin-bottom:12px;">Selected Items</h3>
+              <div id="selectedList" class="shop-cart-list"></div>
+              <div class="shop-cart-totals">
+                <div class="shop-total-row"><span>Total weight</span><span id="builderWeight">0.00 kg</span></div>
+                <div class="shop-total-row"><span>Subtotal</span><span id="builderSubtotal">$0.00</span></div>
+                <div class="shop-total-row"><span>Est. shipping</span><span id="builderShipping">$0.00</span></div>
+                <div class="shop-total-row"><span>Gadget Protection (13%)</span><span id="builderInsurance">$0.00</span></div>
+                <div class="shop-total-row shop-total-bold"><span>Est. total</span><span id="builderTotal">$0.00</span></div>
+              </div>
+              <button onclick="goTo('review')" class="btn-primary shop-full-btn" id="reviewBtn">Review List →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Review List -->
+    <section id="screen-review" class="screen">
+      <div class="shop-container-sm">
+        <button onclick="goBack()" class="shop-back-btn">← Back</button>
+        <h2 class="display-md" style="margin-bottom:4px;">Review Your List</h2>
+        <p style="color:var(--color-ink-muted-80);margin-bottom:24px;">Confirm what you want to buy before configuration.</p>
+        <div id="reviewList" class="shop-review-list"></div>
+        <div style="margin-top:24px;text-align:right;">
+          <button onclick="goTo('summary')" class="btn-primary">Proceed to Configure →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Order Summary + Configuration -->
+    <section id="screen-summary" class="screen">
+      <div class="shop-container">
+        <button onclick="goBack()" class="shop-back-btn">← Back</button>
+        <h2 class="display-md" style="margin-bottom:4px;">Configure Your Order</h2>
+        <p style="color:var(--color-ink-muted-80);margin-bottom:24px;">Select the configuration for each item.</p>
+        <div id="summaryList" class="shop-summary-list"></div>
+
+        <div class="shop-shipping-panel">
+          <h3 class="body-strong" style="margin-bottom:16px;">Shipping &amp; Delivery</h3>
+          <div class="shop-form-grid">
+            <div class="form-group">
+              <label>Shipping Type</label>
+              <select id="shippingType" onchange="setShipping()" class="shop-select shop-full-width">
+                <option value="standard">Standard (5-7 days)</option>
+                <option value="express">Express (2-3 days)</option>
+                <option value="overnight">Overnight (1 day)</option>
+                <option value="international">Standard International (7-14 days)</option>
+                <option value="express-international">Express International (3-5 days)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Destination Country</label>
+              <input id="shippingCountry" type="text" placeholder="United States" oninput="setShipping()" class="shop-input">
+            </div>
+            <div class="form-group">
+              <label>Receiver Full Name</label>
+              <input id="receiverName" type="text" placeholder="Jane Doe" oninput="setShipping()" class="shop-input">
+            </div>
+            <div class="form-group">
+              <label>Receiver ZIP / Postal Code</label>
+              <input id="receiverZip" type="text" placeholder="10001" oninput="setShipping()" class="shop-input">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Receiver Street Address</label>
+            <input id="receiverAddress" type="text" placeholder="123 Main St, Apt 4B" oninput="setShipping()" class="shop-input">
+          </div>
+          <div class="shop-checkbox-row">
+            <input id="shippingInternational" type="checkbox" onchange="setShipping()" class="shop-checkbox">
+            <label for="shippingInternational" class="caption">This is an international shipment (customs fees may apply)</label>
+          </div>
+
+          <div class="shop-shipping-breakdown">
+            <p class="caption-strong" style="margin-bottom:8px;">Shipping Calculation</p>
+            <div class="shop-total-row"><span>Base domestic shipping</span><span id="costBase">$0.00</span></div>
+            <div class="shop-total-row"><span>Weight surcharge (<span id="costWeightKg">0</span> kg)</span><span id="costWeight">$0.00</span></div>
+            <div class="shop-total-row"><span>Speed multiplier</span><span id="costMultiplier">1.0x</span></div>
+            <div class="shop-total-row"><span>International handling fee</span><span id="costIntlFee">$0.00</span></div>
+            <div class="shop-total-row"><span>Declared value charge</span><span id="costValueCharge">$0.00</span></div>
+            <div class="shop-total-row shop-total-bold"><span>Net shipping cost</span><span id="costNetShipping">$0.00</span></div>
+          </div>
+
+          <div class="shop-cart-totals" style="margin-top:16px;">
+            <div class="shop-total-row"><span class="body-strong">Subtotal</span><span id="summarySubtotal" class="body-strong">$0.00</span></div>
+            <div class="shop-total-row"><span>Shipping</span><span id="summaryShipping">$0.00</span></div>
+            <div class="shop-total-row"><span>Gadget Protection (13%)</span><span id="summaryInsurance">$0.00</span></div>
+            <div class="shop-total-row"><span>Tax (8%)</span><span id="summaryTax">$0.00</span></div>
+            <div class="shop-total-row shop-total-bold shop-total-large"><span>Total</span><span id="summaryTotal">$0.00</span></div>
+          </div>
+          <button onclick="goTo('payment')" class="btn-primary shop-full-btn">Proceed to Payment</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Payment Method -->
+    <section id="screen-payment" class="screen">
+      <div class="shop-container-sm">
+        <button onclick="goBack()" class="shop-back-btn">← Back</button>
+        <h2 class="display-md" style="margin-bottom:4px;">Select Payment Method</h2>
+        <p style="color:var(--color-ink-muted-80);margin-bottom:24px;">Choose how you want to pay for your order.</p>
+        <div class="shop-payment-grid">
+          <button onclick="selectPayment('stripe')" class="shop-payment-card">
+            <div class="shop-payment-icon shop-payment-icon-blue">
+              <span style="font-size:24px;">💳</span>
+            </div>
+            <h3 class="body-strong" style="font-size:18px;margin-bottom:4px;">Pay with Stripe</h3>
+            <p class="caption" style="color:var(--color-ink-muted-48);">Credit or debit card. Fast, automated confirmation.</p>
+          </button>
+          <button onclick="selectPayment('crypto')" class="shop-payment-card">
+            <div class="shop-payment-icon shop-payment-icon-amber">
+              <span style="font-size:24px;">₿</span>
+            </div>
+            <h3 class="body-strong" style="font-size:18px;margin-bottom:4px;">Pay with Crypto</h3>
+            <p class="caption" style="color:var(--color-ink-muted-48);">Bitcoin, USDT, ETH, Solana, or altcoins.</p>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Stripe Card Form -->
+    <section id="screen-stripe-form" class="screen">
+      <div class="shop-container-xs">
+        <button onclick="goBack()" class="shop-back-btn">← Back</button>
+        <h2 class="display-md" style="margin-bottom:4px;">Card Details</h2>
+        <p style="color:var(--color-ink-muted-80);margin-bottom:24px;">Enter your card information securely.</p>
+        <div class="shop-form-panel">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input id="payerEmail" type="email" placeholder="you@example.com" class="shop-input">
+          </div>
+          <div class="form-group">
+            <label>Full Name</label>
+            <input id="payerName" type="text" placeholder="John Doe" class="shop-input">
+          </div>
+          <div class="form-group">
+            <label>Billing Address</label>
+            <input id="payerAddress" type="text" placeholder="123 Main St, Apt 4B" class="shop-input">
+          </div>
+          <div class="shop-form-grid">
+            <div class="form-group">
+              <label>ZIP / Postal Code</label>
+              <input id="payerZip" type="text" placeholder="10001" class="shop-input">
+            </div>
+            <div class="form-group">
+              <label>Cardholder Name</label>
+              <input id="cardName" type="text" placeholder="John Doe" class="shop-input">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Card Number</label>
+            <div class="shop-card-number-row">
+              <input id="cardNumber" type="text" maxlength="19" placeholder="0000 0000 0000 0000" oninput="formatCard(this)" class="shop-input shop-mono">
+              <div id="cardBrand" class="shop-card-brand"></div>
+            </div>
+            <p id="cardBrandMsg" class="caption" style="color:var(--color-ink-muted-48);margin-top:4px;"></p>
+          </div>
+          <div class="shop-form-grid">
+            <div class="form-group">
+              <label>Expiry</label>
+              <input id="cardExpiry" type="text" maxlength="5" placeholder="MM/YY" oninput="formatExpiry(this)" class="shop-input shop-mono">
+            </div>
+            <div class="form-group">
+              <label>CVC</label>
+              <input id="cardCvc" type="text" maxlength="4" placeholder="123" class="shop-input shop-mono">
+            </div>
+          </div>
+          <button onclick="payStripe()" class="btn-primary shop-full-btn">Pay Now</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Stripe Processing -->
+    <section id="screen-stripe-processing" class="screen">
+      <div class="shop-processing-container">
+        <div class="shop-spinner-wrap">
+          <div class="shop-spinner"></div>
+        </div>
+        <h2 class="display-md" style="margin-bottom:8px;">Processing Payment</h2>
+        <p style="color:var(--color-ink-muted-80);margin-bottom:24px;">Please wait while we confirm your card with Stripe.</p>
+        <div class="shop-progress-bar">
+          <div id="stripeProgress" class="shop-progress-fill" style="width: 0%"></div>
+        </div>
+        <p id="stripePhaseText" class="caption-strong" style="color:var(--color-primary);margin-bottom:24px;">1 / 15 — Verifying card</p>
+        <div id="stripePhaseList" class="shop-phase-list">
+          <div class="phase-item" data-phase="1"><div class="phase-badge">1</div><span class="phase-text">Verifying card</span></div>
+          <div class="phase-item" data-phase="2"><div class="phase-badge">2</div><span class="phase-text">Contacting financial institution</span></div>
+          <div class="phase-item" data-phase="3"><div class="phase-badge">3</div><span class="phase-text">Validating purchase requirements</span></div>
+          <div class="phase-item" data-phase="4"><div class="phase-badge">4</div><span class="phase-text">Confirming payment</span></div>
+          <div class="phase-item" data-phase="5"><div class="phase-badge">5</div><span class="phase-text">Printing receipt</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Crypto Coin Selection Modal -->
+    <div id="cryptoModal" class="shop-modal-hidden shop-modal-overlay">
+      <div class="shop-modal">
+        <h3 class="display-md" style="font-size:24px;margin-bottom:16px;">Select Cryptocurrency</h3>
+        <div id="cryptoModalOptions" class="shop-modal-options"></div>
+        <button onclick="closeCryptoModal()" class="btn-pearl shop-full-btn" style="margin-top:16px;">Cancel</button>
+      </div>
+    </div>
+
+    <!-- 10. Crypto Payment Screen -->
+    <section id="screen-crypto-payment" class="screen">
+      <div class="shop-container-xs">
+        <button onclick="goBack()" class="shop-back-btn">← Back</button>
+        <h2 class="display-md" style="margin-bottom:4px;">Complete Crypto Payment</h2>
+        <p style="color:var(--color-ink-muted-80);margin-bottom:24px;">Send the exact amount to the address below.</p>
+        <div class="shop-form-panel">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input id="cryptoPayerEmail" type="email" placeholder="you@example.com" class="shop-input">
+          </div>
+          <div class="shop-form-grid">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input id="cryptoPayerName" type="text" placeholder="John Doe" class="shop-input">
+            </div>
+            <div class="form-group">
+              <label>ZIP / Postal Code</label>
+              <input id="cryptoPayerZip" type="text" placeholder="10001" class="shop-input">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Billing Address</label>
+            <input id="cryptoPayerAddress" type="text" placeholder="123 Main St, Apt 4B" class="shop-input">
+          </div>
+          <div class="shop-divider"></div>
+          <div class="shop-qr-placeholder">
+            <div class="shop-qr-box">QR</div>
+            <p class="caption" style="color:var(--color-ink-muted-48);">Scan with your wallet</p>
+          </div>
+          <div class="shop-info-box">
+            <p class="caption" style="color:var(--color-ink-muted-48);">Amount to pay</p>
+            <p id="cryptoAmount" class="body-strong" style="font-size:20px;font-family:monospace;">—</p>
+          </div>
+          <div class="shop-info-box">
+            <p class="caption" style="color:var(--color-ink-muted-48);">Wallet address</p>
+            <p id="cryptoAddress" class="caption" style="font-family:monospace;word-break:break-all;">—</p>
+          </div>
+          <div class="shop-info-box">
+            <p class="caption" style="color:var(--color-ink-muted-48);">Transaction ID</p>
+            <p id="cryptoTxId" class="caption" style="font-family:monospace;">—</p>
+          </div>
+          <button onclick="makeCryptoPayment()" class="btn-primary shop-full-btn">Make Payment</button>
+          <p class="caption" style="text-align:center;color:var(--color-ink-muted-48);margin-top:8px;">After sending, click the button above. Network confirmation may take up to 30 minutes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. Crypto Waiting -->
+    <section id="screen-crypto-waiting" class="screen">
+      <div class="shop-processing-container">
+        <div class="shop-spinner-wrap shop-spinner-amber">
+          <div class="shop-spinner"></div>
+        </div>
+        <h2 class="display-md" style="margin-bottom:8px;">Waiting for Confirmation</h2>
+        <p style="color:var(--color-ink-muted-80);margin-bottom:24px;">We've received your payment broadcast. Waiting for network confirmations.</p>
+        <div class="shop-progress-bar">
+          <div id="cryptoProgress" class="shop-progress-fill shop-progress-amber" style="width: 0%"></div>
+        </div>
+        <p id="cryptoPhaseText" class="caption-strong" style="color:#f59e0b;margin-bottom:24px;">1 / 15 — Broadcasting transaction</p>
+        <div id="cryptoPhaseList" class="shop-phase-list">
+          <div class="phase-item" data-phase="1"><div class="phase-badge">1</div><span class="phase-text">Broadcasting transaction</span></div>
+          <div class="phase-item" data-phase="2"><div class="phase-badge">2</div><span class="phase-text">Waiting for mempool confirmation</span></div>
+          <div class="phase-item" data-phase="3"><div class="phase-badge">3</div><span class="phase-text">Confirming block inclusion</span></div>
+          <div class="phase-item" data-phase="4"><div class="phase-badge">4</div><span class="phase-text">Validating payment amount</span></div>
+          <div class="phase-item" data-phase="5"><div class="phase-badge">5</div><span class="phase-text">Finalizing receipt</span></div>
+        </div>
+        <div style="margin-top:16px;">
+          <p class="caption" style="color:var(--color-ink-muted-48);">Transaction ID: <span id="waitingTxId" style="font-family:monospace;">—</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. Order Receipt -->
+    <section id="screen-confirmed" class="screen">
+      <div class="shop-container">
+        <div class="shop-confirmed-header">
+          <div class="shop-confirmed-icon">✓</div>
+          <h2 class="display-lg">Payment Confirmed</h2>
+          <p style="color:var(--color-ink-muted-80);">Your order has been received and is being processed.</p>
+        </div>
+
+        <div id="receiptCard" class="shop-receipt">
+          <div class="shop-receipt-header">
+            <div class="shop-receipt-brand">
+              <span class="body-strong" style="font-size:18px;">WILBAK</span>
+            </div>
+            <div class="shop-receipt-date">
+              <p class="caption" style="color:var(--color-ink-muted-48);">Order Receipt</p>
+              <p id="receiptDate" class="caption" style="color:var(--color-ink-muted-48);">—</p>
+            </div>
+          </div>
+
+          <div class="shop-receipt-section">
+            <h3 class="body-strong" style="margin-bottom:12px;">Payment Processed Timeline</h3>
+            <div id="receiptTimeline" class="shop-timeline"></div>
+          </div>
+
+          <div class="shop-receipt-section">
+            <h3 class="body-strong" style="margin-bottom:12px;">Order Items</h3>
+            <div id="receiptItems"></div>
+          </div>
+
+          <div class="shop-receipt-section">
+            <h3 class="body-strong" style="margin-bottom:12px;">Shipping Details</h3>
+            <div class="shop-receipt-shipping">
+              <p id="receiptShippingType" class="caption" style="color:var(--color-ink-muted-80);">—</p>
+              <p id="receiptShippingAddress" class="caption" style="color:var(--color-ink-muted-80);">—</p>
+              <p id="receiptShippingCountry" class="caption" style="color:var(--color-ink-muted-80);">—</p>
+              <p id="receiptReceiver" class="caption" style="color:var(--color-ink-muted-80);">—</p>
+            </div>
+          </div>
+
+          <div class="shop-receipt-totals">
+            <div class="shop-total-row"><span>Subtotal</span><span id="receiptSubtotal">$0.00</span></div>
+            <div class="shop-total-row"><span>Shipping</span><span id="receiptShipping">$0.00</span></div>
+            <div class="shop-total-row"><span>Gadget Protection (13%)</span><span id="receiptInsurance">$0.00</span></div>
+            <div class="shop-total-row"><span>Estimated Tax (8%)</span><span id="receiptTax">$0.00</span></div>
+            <div class="shop-total-row shop-total-bold shop-total-large"><span>Total Paid</span><span id="receiptTotal">$0.00</span></div>
+          </div>
+
+          <div class="shop-receipt-footer">
+            <p class="caption" style="color:var(--color-ink-muted-48);">Payment Method: <span id="receiptMethod" class="body-strong" style="color:var(--color-ink);">—</span></p>
+            <p class="caption" style="color:var(--color-ink-muted-48);">Transaction ID: <span id="receiptTxId" style="font-family:monospace;">—</span></p>
+            <p class="caption" style="color:var(--color-ink-muted-48);">Billed to: <span id="receiptPayer" class="body-strong" style="color:var(--color-ink);">—</span></p>
+          </div>
+        </div>
+
+        <div class="shop-receipt-actions">
+          <button onclick="printReceipt()" class="btn-primary">Print Receipt to PDF</button>
+          <button onclick="sendDetails()" class="btn-secondary">Send Receipt to Email</button>
+        </div>
+        <p class="caption" style="text-align:center;color:var(--color-ink-muted-48);margin-top:8px;">The PDF will use your browser's print dialog. Choose "Save as PDF" to download.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-columns">
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/projects.html">Projects</a></li>
+            <li><a href="/shop">Shop</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Engage</h4>
+          <ul>
+            <li><a href="/contact.html">Contact Wilhelm</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms &amp; Conditions</a></li>
+            <li><a href="/sla.html">Service Level Agreement</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Location</h4>
+          <ul>
+            <li><a href="/contact.html">Houston, Texas</a></li>
+            <li><a href="/contact.html">North America &middot; EMEA</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p>&copy; 2026 Wilbak Engineering Group</p>
+        <div class="footer-legal-links">
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+          <a href="/sla.html">SLA</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="shop-mobile-menu">
+    <ul>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/projects.html">Projects</a></li>
+      <li><a href="/shop">Shop</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- Support Modal -->
+  <div id="supportModal" class="shop-modal-hidden shop-modal-overlay">
+    <div class="shop-modal">
+      <h3 class="display-md" style="font-size:24px;margin-bottom:8px;">Contact Support</h3>
+      <p class="caption" style="color:var(--color-ink-muted-48);margin-bottom:16px;">Send a message to our team. We will reply via Telegram.</p>
+      <div class="form-group">
+        <label>Your Name</label>
+        <input id="supportName" type="text" placeholder="John Doe" class="shop-input">
+      </div>
+      <div class="form-group">
+        <label>Your Email</label>
+        <input id="supportEmail" type="email" placeholder="you@example.com" class="shop-input">
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea id="supportMessage" rows="4" placeholder="How can we help you?" class="shop-input" style="resize:vertical;min-height:100px;"></textarea>
+      </div>
+      <div class="shop-modal-actions">
+        <button onclick="closeSupport()" class="btn-secondary">Cancel</button>
+        <button onclick="sendSupport()" class="btn-primary">Send Message</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // === Data loaded from CSVs served by server.py ===
+    let products = [];
+    let cryptoDetails = [];
+
+    // === State ===
+    let state = {
+      cart: [],
+      payment: { method: null, coin: null, transactionId: null, email: '', name: '', address: '', zip: '', timeline: [] },
+      taxRate: 0.08,
+      gadgetProtectionRate: 0.13,
+      shipping: { type: 'standard', international: false, country: 'United States', receiverName: '', receiverAddress: '', receiverZip: '' }
+    };
+
+    let history = ['landing'];
+
+    // === Helpers ===
+    const formatMoney = (n) => '$' + n.toFixed(2);
+    const generateTxId = () => 'TXN-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+    const getProduct = (id) => products.find(p => p.id === id);
+    const getConfigPrice = (product, configName) => {
+      const cfg = product.configs.find(c => c.name === configName);
+      return cfg ? cfg.price_adjustment : 0;
+    };
+    const getItemPrice = (item) => {
+      const p = getProduct(item.productId);
+      return p.price + getConfigPrice(p, item.config);
+    };
+    const getCartTotal = () => state.cart.reduce((sum, item) => sum + (item.qty * getItemPrice(item)), 0);
+    const getTotalWeight = () => state.cart.reduce((sum, item) => sum + (item.qty * getProduct(item.productId).weight_kg), 0);
+    const getTax = (subtotal) => subtotal * state.taxRate;
+    const getGadgetProtection = (subtotal) => subtotal * state.gadgetProtectionRate;
+    const getShippingBreakdown = () => {
+      const subtotal = getCartTotal();
+      const weight = getTotalWeight();
+      const activeCount = state.cart.filter(c => c.qty > 0).length;
+      if (activeCount === 0) {
+        return { base: 0, weightCharge: 0, multiplier: 1, valueCharge: 0, intlFee: 0, net: 0 };
+      }
+      const isInternational = state.shipping.international || state.shipping.type === 'international' || state.shipping.type === 'express-international';
+      const multiplier = state.shipping.type === 'express' ? 2.0 : state.shipping.type === 'overnight' ? 3.5 : state.shipping.type === 'international' ? 1.0 : state.shipping.type === 'express-international' ? 1.6 : 1.0;
+      if (isInternational) {
+        const base = 75;
+        const weightCharge = Math.round(weight * 8.5 * 100) / 100;
+        const valueCharge = Math.round(subtotal * 0.005 * 100) / 100;
+        const intlFee = base + weightCharge + valueCharge;
+        const net = Math.round(intlFee * multiplier * 100) / 100;
+        return { base: 0, weight, weightCharge, multiplier, valueCharge, intlFee, net };
+      } else {
+        const base = 12;
+        const weightCharge = Math.round(weight * 3.5 * 100) / 100;
+        const net = Math.round((base + weightCharge) * multiplier * 100) / 100;
+        return { base, weight, weightCharge, multiplier, valueCharge: 0, intlFee: 0, net };
+      }
+    };
+    const getShipping = () => getShippingBreakdown().net;
+    const getTotal = () => {
+      const subtotal = getCartTotal();
+      return subtotal + getShipping() + getGadgetProtection(subtotal) + getTax(subtotal);
+    };
+
+    const shippingLabels = {
+      standard: 'Standard (5-7 days)',
+      express: 'Express (2-3 days)',
+      overnight: 'Overnight (1 day)',
+      international: 'Standard International (7-14 days)',
+      'express-international': 'Express International (3-5 days)'
+    };
+
+    // === API ===
+    async function loadData() {
+      try {
+        const [prodRes, cryptoRes] = await Promise.all([
+          fetch('/api/products'),
+          fetch('/api/crypto-details')
+        ]);
+        products = await prodRes.json();
+        cryptoDetails = await cryptoRes.json();
+        state.cart = products.map(p => ({ productId: p.id, qty: 0, config: p.configs[0]?.name || '' }));
+        populateCategoryFilter();
+        renderBuilder();
+      } catch (e) {
+        console.error('Failed to load data', e);
+        document.getElementById('productList').innerHTML = '<div class="shop-error">Error loading products. Make sure the server is running.</div>';
+      }
+    }
+
+    function populateCategoryFilter() {
+      const filter = document.getElementById('categoryFilter');
+      const categories = [...new Set(products.map(p => p.category))].sort();
+      categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+        filter.appendChild(option);
+      });
+    }
+
+    // === Navigation ===
+    function goTo(screenId, push = true) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active', 'fade-in'));
+      const target = document.getElementById('screen-' + screenId);
+      if (target) {
+        target.classList.add('active', 'fade-in');
+        window.scrollTo(0, 0);
+      }
+      if (push) history.push(screenId);
+      if (screenId === 'builder') renderBuilder();
+      if (screenId === 'custom') renderCustom();
+      if (screenId === 'review') renderReview();
+      if (screenId === 'summary') renderSummary();
+      if (screenId === 'confirmed') renderConfirmed();
+    }
+
+    function goBack() {
+      if (history.length > 1) {
+        history.pop();
+        goTo(history[history.length - 1], false);
+      }
+    }
+
+    function goHome() {
+      history = ['landing'];
+      goTo('landing', false);
+    }
+
+    // === Theme Toggle ===
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      htmlEl.classList.add('dark');
+    }
+    themeToggle.addEventListener('click', () => {
+      htmlEl.classList.toggle('dark');
+    });
+
+    // === Mobile Menu ===
+    document.getElementById('shopHamburger').addEventListener('click', function() {
+      var m = document.getElementById('mobile-menu');
+      m.style.display = (m.style.display === 'none' || !m.style.display) ? 'block' : 'none';
+    });
+
+    // === Builder Screen ===
+    function renderBuilder() {
+      const category = document.getElementById('categoryFilter').value;
+      const query = document.getElementById('productSearch')?.value.trim().toLowerCase() || '';
+      const sort = document.getElementById('productSort')?.value || 'default';
+      const list = document.getElementById('productList');
+      list.innerHTML = '';
+      let filtered = category === 'all' ? products : products.filter(p => p.category === category);
+      if (query) {
+        filtered = filtered.filter(p => {
+          const haystack = [
+            p.name, p.brand, p.category, p.description, p.features, p.unit, p.tier,
+            ...(p.configs || []).map(c => c.name)
+          ].join(' ').toLowerCase();
+          return haystack.includes(query);
+        });
+      }
+      if (sort === 'price-asc') filtered.sort((a, b) => a.price - b.price);
+      else if (sort === 'price-desc') filtered.sort((a, b) => b.price - a.price);
+      else if (sort === 'name') filtered.sort((a, b) => a.name.localeCompare(b.name));
+      if (filtered.length === 0) {
+        list.innerHTML = '<div class="shop-empty">No products match your search.</div>';
+        renderSelectedList();
+        updateBuilderTotals();
+        return;
+      }
+      filtered.forEach(p => {
+        const item = state.cart.find(c => c.productId === p.id);
+        const card = document.createElement('div');
+        card.className = 'shop-product-card';
+        card.innerHTML = `
+          <div class="shop-product-info">
+            <div class="shop-product-tags">
+              <span class="shop-tag">${p.category}</span>
+              <span class="shop-brand">${p.brand}</span>
+            </div>
+            <h3 class="body-strong" style="font-size:18px;">${p.name}</h3>
+            <p class="caption" style="color:var(--color-ink-muted-48);">${p.description}</p>
+            <p class="caption-strong" style="color:var(--color-primary);margin-top:4px;">${formatMoney(p.price)} / ${p.unit}</p>
+            <p class="caption" style="color:var(--color-ink-muted-48);">${p.weight_kg} kg · ships from US warehouse</p>
+          </div>
+          <div class="shop-qty-controls">
+            <button onclick="setQty('${p.id}', -1)" class="shop-qty-btn">−</button>
+            <span class="shop-qty-display">${item.qty}</span>
+            <button onclick="setQty('${p.id}', 1)" class="shop-qty-btn">+</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+      renderSelectedList();
+      updateBuilderTotals();
+    }
+
+    function renderSelectedList() {
+      const list = document.getElementById('selectedList');
+      const active = state.cart.filter(c => c.qty > 0);
+      if (active.length === 0) {
+        list.innerHTML = '<p class="caption" style="color:var(--color-ink-muted-48);">No items selected yet.</p>';
+        return;
+      }
+      list.innerHTML = active.map(item => {
+        const p = getProduct(item.productId);
+        const price = getItemPrice(item);
+        const adj = getConfigPrice(p, item.config);
+        return `
+          <div class="shop-cart-item">
+            <div>
+              <p class="caption-strong">${p.name}</p>
+              <p class="caption" style="color:var(--color-ink-muted-48);">Qty: ${item.qty} · ${item.config}${adj ? ' · +' + formatMoney(adj) : ''}</p>
+            </div>
+            <span class="caption-strong">${formatMoney(item.qty * price)}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateBuilderTotals() {
+      const subtotal = getCartTotal();
+      const shipping = getShipping();
+      const insurance = getGadgetProtection(subtotal);
+      const tax = getTax(subtotal);
+      const total = subtotal + shipping + insurance + tax;
+      const weight = getTotalWeight();
+      document.getElementById('builderWeight').textContent = weight.toFixed(2) + ' kg';
+      document.getElementById('builderSubtotal').textContent = formatMoney(subtotal);
+      document.getElementById('builderShipping').textContent = formatMoney(shipping);
+      document.getElementById('builderInsurance').textContent = formatMoney(insurance);
+      document.getElementById('builderTotal').textContent = formatMoney(total);
+      const hasItems = state.cart.some(c => c.qty > 0);
+      document.getElementById('reviewBtn').disabled = !hasItems;
+    }
+
+    function setQty(id, delta) {
+      const item = state.cart.find(c => c.productId === id);
+      item.qty = Math.max(0, item.qty + delta);
+      renderBuilder();
+    }
+
+    // === Custom Build Screen ===
+    function renderCustom() {
+      const query = document.getElementById('customSearch')?.value.trim().toLowerCase() || '';
+      const sort = document.getElementById('customSort')?.value || 'default';
+      const tiers = [
+        { level: 1, label: 'Entry', desc: 'Business productivity and professional starter systems ($4,500–$6,500).' },
+        { level: 2, label: 'Professional', desc: 'Creator, studio, and specialist workstations ($6,500–$9,000).' },
+        { level: 3, label: 'Creator', desc: 'High-throughput editing, AI, and engineering stations ($9,000–$12,000).' },
+        { level: 4, label: 'High-End', desc: '4K/VFX, research, and security operations centers ($12,000–$15,000).' },
+        { level: 5, label: 'Enterprise', desc: 'Dual-GPU render, LLM, and production command centers ($15,000–$18,000).' }
+      ];
+      const container = document.getElementById('customBuildList');
+      const html = tiers.map(tier => {
+        let builds = products.filter(p => p.category === 'custom-pc' && p.tier === tier.label);
+        if (query) {
+          builds = builds.filter(p => {
+            const haystack = [
+              p.name, p.brand, p.description, p.tier, p.features,
+              ...(p.configs || []).map(c => c.name)
+            ].join(' ').toLowerCase();
+            return haystack.includes(query);
+          });
+        }
+        if (sort === 'price-asc') builds.sort((a, b) => a.price - b.price);
+        else if (sort === 'price-desc') builds.sort((a, b) => b.price - a.price);
+        else if (sort === 'name') builds.sort((a, b) => a.name.localeCompare(b.name));
+        else builds.sort((a, b) => a.price - b.price);
+        if (builds.length === 0) return '';
+        return `
+          <div class="shop-tier-card">
+            <div class="shop-tier-header">
+              <div class="shop-tier-badge">${tier.level}</div>
+              <h3 class="display-md" style="font-size:24px;">${tier.label} Tier</h3>
+              <span class="caption" style="color:var(--color-ink-muted-48);margin-left:auto;">${builds.length} builds</span>
+            </div>
+            <p class="caption" style="color:var(--color-ink-muted-48);margin-bottom:16px;">${tier.desc}</p>
+            <div class="shop-builds-grid">
+              ${builds.map(p => {
+                const basePrice = p.price;
+                const topCfg = p.configs[p.configs.length - 1];
+                const topPrice = basePrice + (topCfg ? topCfg.price_adjustment : 0);
+                return `
+                  <div class="shop-build-card">
+                    <div style="margin-bottom:8px;">
+                      <p class="body-strong" style="font-size:17px;">${p.name}</p>
+                      <p class="caption" style="color:var(--color-ink-muted-48);">${p.brand}</p>
+                    </div>
+                    <p class="caption" style="color:var(--color-ink-muted-48);margin-bottom:12px;">${p.description}</p>
+                    <p class="caption-strong" style="color:var(--color-primary);margin-bottom:4px;">${formatMoney(basePrice)} – ${formatMoney(topPrice)}</p>
+                    <p class="caption" style="color:var(--color-ink-muted-48);margin-bottom:12px;">${p.weight_kg} kg · ${p.configs.length} configs</p>
+                    <button onclick="selectCustomBuild('${p.id}')" class="btn-primary shop-full-btn" style="font-size:14px;padding:8px 16px;">Select This Build</button>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+      container.innerHTML = html || '<div class="shop-empty">No builds match your search.</div>';
+    }
+
+    function selectCustomBuild(productId) {
+      state.cart.forEach(c => { if (c.qty > 0 && getProduct(c.productId).category === 'custom-pc') c.qty = 0; });
+      const item = state.cart.find(c => c.productId === productId);
+      item.qty = 1;
+      item.config = getProduct(productId).configs[0]?.name || '';
+      goTo('summary');
+    }
+
+    // === Review Screen ===
+    function renderReview() {
+      const list = document.getElementById('reviewList');
+      const active = state.cart.filter(c => c.qty > 0);
+      if (active.length === 0) {
+        list.innerHTML = '<div class="shop-empty">No items selected.</div>';
+        return;
+      }
+      list.innerHTML = active.map(item => {
+        const p = getProduct(item.productId);
+        const price = getItemPrice(item);
+        const adj = getConfigPrice(p, item.config);
+        return `
+          <div class="shop-review-item">
+            <div>
+              <p class="body-strong">${p.name}</p>
+              <p class="caption" style="color:var(--color-ink-muted-48);">Qty: ${item.qty} · ${p.brand} · ${item.config}${adj ? ' (+' + formatMoney(adj) + ')' : ''}</p>
+            </div>
+            <div class="body-strong">${formatMoney(item.qty * price)}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // === Summary Screen ===
+    function renderSummary() {
+      const list = document.getElementById('summaryList');
+      const active = state.cart.filter(c => c.qty > 0);
+      list.innerHTML = active.map(item => {
+        const p = getProduct(item.productId);
+        const price = getItemPrice(item);
+        const adj = getConfigPrice(p, item.config);
+        return `
+          <div class="shop-summary-card">
+            <div class="shop-summary-header">
+              <div>
+                <h3 class="body-strong" style="font-size:18px;">${p.name}</h3>
+                <p class="caption" style="color:var(--color-ink-muted-48);">${p.brand} · ${formatMoney(p.price)}${adj ? ' + ' + formatMoney(adj) : ''} × ${item.qty}</p>
+              </div>
+              <div class="body-strong" style="font-size:20px;color:var(--color-primary);">${formatMoney(item.qty * price)}</div>
+            </div>
+            <div>
+              <label class="caption-strong" style="display:block;margin-bottom:6px;">Configuration</label>
+              <select onchange="setConfig('${item.productId}', this.value)" class="shop-select">
+                ${p.configs.map(c => {
+                  const selected = item.config === c.name ? 'selected' : '';
+                  const label = c.price_adjustment ? `${c.name} (+${formatMoney(c.price_adjustment)})` : c.name;
+                  return `<option value="${c.name}" ${selected}>${label}</option>`;
+                }).join('')}
+              </select>
+            </div>
+          </div>
+        `;
+      }).join('');
+      updateSummaryTotals();
+    }
+
+    function updateSummaryTotals() {
+      const subtotal = getCartTotal();
+      const shipping = getShipping();
+      const insurance = getGadgetProtection(subtotal);
+      const tax = getTax(subtotal);
+      const total = subtotal + shipping + insurance + tax;
+      const bd = getShippingBreakdown();
+      document.getElementById('summarySubtotal').textContent = formatMoney(subtotal);
+      document.getElementById('summaryShipping').textContent = formatMoney(shipping);
+      document.getElementById('summaryInsurance').textContent = formatMoney(insurance);
+      document.getElementById('summaryTax').textContent = formatMoney(tax);
+      document.getElementById('summaryTotal').textContent = formatMoney(total);
+      document.getElementById('costBase').textContent = formatMoney(bd.base);
+      document.getElementById('costWeightKg').textContent = bd.weight.toFixed(2);
+      document.getElementById('costWeight').textContent = formatMoney(bd.weightCharge);
+      document.getElementById('costMultiplier').textContent = bd.multiplier.toFixed(1) + 'x';
+      document.getElementById('costIntlFee').textContent = formatMoney(bd.intlFee);
+      document.getElementById('costValueCharge').textContent = formatMoney(bd.valueCharge);
+      document.getElementById('costNetShipping').textContent = formatMoney(shipping);
+    }
+
+    function setConfig(id, value) {
+      const item = state.cart.find(c => c.productId === id);
+      item.config = value;
+      renderSummary();
+    }
+
+    function setShipping() {
+      state.shipping.type = document.getElementById('shippingType').value;
+      state.shipping.international = document.getElementById('shippingInternational').checked;
+      state.shipping.country = document.getElementById('shippingCountry').value || 'United States';
+      state.shipping.receiverName = document.getElementById('receiverName').value || '';
+      state.shipping.receiverAddress = document.getElementById('receiverAddress').value || '';
+      state.shipping.receiverZip = document.getElementById('receiverZip').value || '';
+      updateSummaryTotals();
+    }
+
+    // === Payment Selection ===
+    function selectPayment(method) {
+      state.payment.method = method;
+      state.payment.transactionId = generateTxId();
+      if (method === 'stripe') {
+        goTo('stripe-form');
+      } else {
+        renderCryptoModal();
+        document.getElementById('cryptoModal').classList.remove('shop-modal-hidden');
+      }
+    }
+
+    function renderCryptoModal() {
+      const container = document.getElementById('cryptoModalOptions');
+      if (!container) return;
+      container.innerHTML = cryptoDetails.map(c => `
+        <button onclick="selectCoin('${c.id}')" class="shop-coin-option">
+          <span class="body-strong">${c.name} (${c.symbol})</span>
+          <span style="color:var(--color-ink-muted-48);">›</span>
+        </button>
+      `).join('');
+    }
+
+    function closeCryptoModal() {
+      document.getElementById('cryptoModal').classList.add('shop-modal-hidden');
+    }
+
+    function selectCoin(coinId) {
+      state.payment.coin = coinId;
+      closeCryptoModal();
+      goTo('crypto-payment');
+      renderCryptoPayment();
+    }
+
+    function getCoin(coinId) {
+      return cryptoDetails.find(c => c.id === coinId) || { symbol: 'BTC', address: 'Wallet address will be provided at checkout', rate_usd: 65000 };
+    }
+
+    // === Stripe ===
+    function formatCard(input) {
+      let value = input.value.replace(/\D/g, '').substring(0, 16);
+      value = value.replace(/(.{4})/g, '$1 ').trim();
+      input.value = value;
+      detectCardBrand(value.replace(/\s/g, ''));
+    }
+
+    function detectCardBrand(number) {
+      const brandEl = document.getElementById('cardBrand');
+      const msgEl = document.getElementById('cardBrandMsg');
+      let brand = '';
+      if (number.startsWith('4')) {
+        brand = 'Visa';
+      } else if (/^5[1-5]/.test(number) || /^2(2[2-9]|[3-7]\d|8[0-1]|9[0-1])/.test(number)) {
+        brand = 'MasterCard';
+      }
+      brandEl.textContent = brand;
+      msgEl.textContent = brand ? `Detected: ${brand}` : (number.length >= 4 ? 'Unknown card brand' : 'Enter card number to detect brand');
+    }
+
+    function formatExpiry(input) {
+      let value = input.value.replace(/\D/g, '').substring(0, 4);
+      if (value.length >= 2) value = value.substring(0, 2) + '/' + value.substring(2);
+      input.value = value;
+    }
+
+    function payStripe() {
+      const number = document.getElementById('cardNumber').value.replace(/\s/g, '');
+      const email = document.getElementById('payerEmail').value.trim();
+      const name = document.getElementById('payerName').value.trim();
+      const address = document.getElementById('payerAddress').value.trim();
+      const zip = document.getElementById('payerZip').value.trim();
+      if (!email || !email.includes('@')) return alert('Please enter a valid email address');
+      if (!name) return alert('Please enter your full name');
+      if (!address) return alert('Please enter your billing address');
+      if (!zip) return alert('Please enter your ZIP / postal code');
+      if (number.length < 13) return alert('Please enter a valid card number');
+      if (!document.getElementById('cardExpiry').value) return alert('Please enter expiry date');
+      if (!document.getElementById('cardCvc').value) return alert('Please enter CVC');
+      if (!document.getElementById('cardName').value) return alert('Please enter cardholder name');
+      state.payment.email = email;
+      state.payment.name = name;
+      state.payment.address = address;
+      state.payment.zip = zip;
+      goTo('stripe-processing');
+      runPhaseProgress('stripe', 15, [
+        { label: 'Verifying card', done: 'Card verified' },
+        { label: 'Contacting financial institution', done: 'Institution reached' },
+        { label: 'Validating purchase requirements', done: 'Requirements validated' },
+        { label: 'Confirming payment', done: 'Payment confirmed' },
+        { label: 'Printing receipt', done: 'Receipt printed' }
+      ], () => showConfirmed());
+    }
+
+    function runPhaseProgress(prefix, totalPhases, steps, onDone) {
+      const progress = document.getElementById(prefix + 'Progress');
+      const phaseText = document.getElementById(prefix + 'PhaseText');
+      const list = document.getElementById(prefix + 'PhaseList');
+      const items = list.querySelectorAll('.phase-item');
+      let phase = 0;
+      function tick() {
+        phase++;
+        const pct = (phase / totalPhases) * 100;
+        progress.style.width = pct + '%';
+        const stepIndex = Math.min(Math.floor((phase - 1) / (totalPhases / steps.length)), steps.length - 1);
+        const step = steps[stepIndex];
+        const stepNumber = stepIndex + 1;
+        phaseText.textContent = `${phase} / ${totalPhases} — ${step.label}`;
+        items.forEach((el, idx) => {
+          const badge = el.querySelector('.phase-badge');
+          const text = el.querySelector('.phase-text');
+          if (idx < stepIndex) {
+            badge.className = 'phase-badge phase-badge-done';
+            badge.innerHTML = '✓';
+            text.className = 'phase-text phase-text-done';
+            text.textContent = step.done || step.label;
+          } else if (idx === stepIndex) {
+            badge.className = 'phase-badge phase-badge-active';
+            badge.textContent = stepNumber;
+            text.className = 'phase-text phase-text-active';
+            text.textContent = step.label;
+          } else {
+            badge.className = 'phase-badge';
+            badge.textContent = idx + 1;
+            text.className = 'phase-text';
+            text.textContent = steps[idx].label;
+          }
+        });
+        if (phase >= totalPhases) {
+          const lastIdx = steps.length - 1;
+          const lastEl = items[lastIdx];
+          const lastBadge = lastEl.querySelector('.phase-badge');
+          const lastText = lastEl.querySelector('.phase-text');
+          lastBadge.className = 'phase-badge phase-badge-done';
+          lastBadge.innerHTML = '✓';
+          lastText.className = 'phase-text phase-text-done';
+          lastText.textContent = steps[lastIdx].done;
+          setTimeout(onDone, 400);
+          return;
+        }
+        const nextDelay = Math.floor(Math.random() * 5000) + 2000;
+        setTimeout(tick, nextDelay);
+      }
+      tick();
+    }
+
+    // === Crypto ===
+    function renderCryptoPayment() {
+      const coin = getCoin(state.payment.coin);
+      const total = getTotal();
+      const cryptoAmount = (total / coin.rate_usd).toFixed(6);
+      document.getElementById('cryptoAmount').textContent = `${cryptoAmount} ${coin.symbol}`;
+      document.getElementById('cryptoAddress').textContent = coin.address;
+      document.getElementById('cryptoTxId').textContent = state.payment.transactionId;
+    }
+
+    function makeCryptoPayment() {
+      const email = document.getElementById('cryptoPayerEmail').value.trim();
+      const name = document.getElementById('cryptoPayerName').value.trim();
+      const address = document.getElementById('cryptoPayerAddress').value.trim();
+      const zip = document.getElementById('cryptoPayerZip').value.trim();
+      if (!email || !email.includes('@')) return alert('Please enter a valid email address');
+      if (!name) return alert('Please enter your full name');
+      if (!address) return alert('Please enter your billing address');
+      if (!zip) return alert('Please enter your ZIP / postal code');
+      state.payment.email = email;
+      state.payment.name = name;
+      state.payment.address = address;
+      state.payment.zip = zip;
+      goTo('crypto-waiting');
+      document.getElementById('waitingTxId').textContent = state.payment.transactionId;
+      runPhaseProgress('crypto', 15, [
+        { label: 'Broadcasting transaction', done: 'Transaction broadcast' },
+        { label: 'Waiting for mempool confirmation', done: 'Mempool confirmed' },
+        { label: 'Confirming block inclusion', done: 'Block included' },
+        { label: 'Validating payment amount', done: 'Amount validated' },
+        { label: 'Finalizing receipt', done: 'Receipt finalized' }
+      ], () => showConfirmed());
+    }
+
+    // === Confirmed / Receipt ===
+    function showConfirmed() {
+      goTo('confirmed');
+    }
+
+    function renderConfirmed() {
+      const subtotal = getCartTotal();
+      const shipping = getShipping();
+      const insurance = getGadgetProtection(subtotal);
+      const tax = getTax(subtotal);
+      const total = getTotal();
+      const coin = getCoin(state.payment.coin);
+      const method = state.payment.method === 'stripe' ? 'Stripe (Credit Card)' : `Crypto (${coin.symbol})`;
+      const payer = state.payment.name || '—';
+      const payerEmail = state.payment.email || '—';
+
+      const stripeSteps = [
+        { label: 'Verifying card', done: 'Card verified' },
+        { label: 'Contacting financial institution', done: 'Institution reached' },
+        { label: 'Validating purchase requirements', done: 'Requirements validated' },
+        { label: 'Confirming payment', done: 'Payment confirmed' },
+        { label: 'Printing receipt', done: 'Receipt printed' }
+      ];
+      const cryptoSteps = [
+        { label: 'Broadcasting transaction', done: 'Transaction broadcast' },
+        { label: 'Waiting for mempool confirmation', done: 'Mempool confirmed' },
+        { label: 'Confirming block inclusion', done: 'Block included' },
+        { label: 'Validating payment amount', done: 'Amount validated' },
+        { label: 'Finalizing receipt', done: 'Receipt finalized' }
+      ];
+      const steps = state.payment.method === 'stripe' ? stripeSteps : cryptoSteps;
+      const timelineHtml = steps.map((step, i) => `
+        <div class="shop-timeline-item">
+          <div class="shop-timeline-badge">✓</div>
+          <div class="shop-timeline-content">
+            <span class="caption-strong">${i + 1}. ${step.label}</span>
+            <span class="caption" style="color:#22c55e;">${step.done}</span>
+          </div>
+        </div>
+      `).join('');
+      document.getElementById('receiptTimeline').innerHTML = timelineHtml;
+
+      const itemsHtml = state.cart.filter(c => c.qty > 0).map(item => {
+        const p = getProduct(item.productId);
+        const price = getItemPrice(item);
+        const adj = getConfigPrice(p, item.config);
+        return `
+          <div class="shop-receipt-item">
+            <div>
+              <p class="caption-strong">${p.name}</p>
+              <p class="caption" style="color:var(--color-ink-muted-48);">${p.brand} · ${item.config}${adj ? ' (+' + formatMoney(adj) + ')' : ''} × ${item.qty} · ${(p.weight_kg * item.qty).toFixed(2)} kg</p>
+            </div>
+            <span class="caption-strong">${formatMoney(item.qty * price)}</span>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('receiptItems').innerHTML = itemsHtml || '<p class="caption" style="color:var(--color-ink-muted-48);">No items.</p>';
+
+      document.getElementById('receiptShippingType').textContent = `Service: ${shippingLabels[state.shipping.type] || state.shipping.type}`;
+      document.getElementById('receiptShippingAddress').textContent = `Address: ${state.shipping.receiverAddress || '—'}`;
+      document.getElementById('receiptShippingCountry').textContent = `Country: ${state.shipping.country} · ZIP: ${state.shipping.receiverZip || '—'}`;
+      document.getElementById('receiptReceiver').textContent = `Receiver: ${state.shipping.receiverName || '—'}`;
+
+      document.getElementById('receiptSubtotal').textContent = formatMoney(subtotal);
+      document.getElementById('receiptShipping').textContent = formatMoney(shipping);
+      document.getElementById('receiptInsurance').textContent = formatMoney(insurance);
+      document.getElementById('receiptTax').textContent = formatMoney(tax);
+      document.getElementById('receiptTotal').textContent = formatMoney(total);
+      document.getElementById('receiptMethod').textContent = method;
+      document.getElementById('receiptTxId').textContent = state.payment.transactionId;
+      document.getElementById('receiptPayer').textContent = `${payer} (${payerEmail})`;
+      document.getElementById('receiptDate').textContent = new Date().toLocaleString();
+    }
+
+    function printReceipt() {
+      window.print();
+    }
+
+    async function sendDetails() {
+      const email = prompt('Enter your email address to receive the receipt:', state.payment.email || '');
+      if (!email || !email.includes('@')) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+      state.payment.email = email;
+      try {
+        const payload = {
+          cart: state.cart.filter(c => c.qty > 0),
+          shipping: state.shipping,
+          payment: state.payment,
+          total: getTotal()
+        };
+        await fetch('/api/order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (e) {
+        console.error('Order submission failed', e);
+      }
+      alert(`Receipt sent to ${email}!`);
+    }
+
+    // === Support ===
+    function openSupport() {
+      document.getElementById('supportModal').classList.remove('shop-modal-hidden');
+      document.getElementById('supportName').focus();
+    }
+
+    function closeSupport() {
+      document.getElementById('supportModal').classList.add('shop-modal-hidden');
+    }
+
+    async function sendSupport() {
+      const name = document.getElementById('supportName').value.trim();
+      const email = document.getElementById('supportEmail').value.trim();
+      const message = document.getElementById('supportMessage').value.trim();
+      if (!name) return alert('Please enter your name.');
+      if (!email || !email.includes('@')) return alert('Please enter a valid email address.');
+      if (!message) return alert('Please enter a message.');
+      try {
+        const res = await fetch('/api/support', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, message })
+        });
+        const data = await res.json();
+        if (data.status === 'sent') {
+          alert('Message sent. Support will contact you soon.');
+          document.getElementById('supportName').value = '';
+          document.getElementById('supportEmail').value = '';
+          document.getElementById('supportMessage').value = '';
+          closeSupport();
+        } else {
+          alert('Message could not be sent. Please try again later.');
+        }
+      } catch (e) {
+        console.error('Support send failed', e);
+        alert('Message could not be sent. Please try again later.');
+      }
+    }
+
+    // === Init ===
+    document.addEventListener('DOMContentLoaded', () => {
+      loadData();
+    });
+  </script>
+</body>
+</html>

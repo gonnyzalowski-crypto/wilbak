@@ -1,0 +1,107 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Root -> site/index.html
+[[redirects]]
+  from = "/"
+  to = "/site/index.html"
+  status = 200
+
+# Main site pages (live in /site/ but linked without prefix)
+[[redirects]]
+  from = "/about.html"
+  to = "/site/about.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact.html"
+  to = "/site/contact.html"
+  status = 200
+
+[[redirects]]
+  from = "/projects.html"
+  to = "/site/projects.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy.html"
+  to = "/site/privacy.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms.html"
+  to = "/site/terms.html"
+  status = 200
+
+[[redirects]]
+  from = "/sla.html"
+  to = "/site/sla.html"
+  status = 200
+
+# CSS is in /site/css/
+[[redirects]]
+  from = "/css/*"
+  to = "/site/css/:splat"
+  status = 200
+
+# Redirect /shop to /shop/index.html
+[[redirects]]
+  from = "/shop"
+  to = "/shop/index.html"
+  status = 200
+
+# API routes -> Netlify Functions
+[[redirects]]
+  from = "/api/products"
+  to = "/.netlify/functions/products"
+  status = 200
+
+[[redirects]]
+  from = "/api/crypto-details"
+  to = "/.netlify/functions/crypto-details"
+  status = 200
+
+[[redirects]]
+  from = "/api/order"
+  to = "/.netlify/functions/order"
+  status = 200
+
+[[redirects]]
+  from = "/api/support"
+  to = "/.netlify/functions/support"
+  status = 200
+
+# Pretty URL redirects for main site
+[[redirects]]
+  from = "/about"
+  to = "/about.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact.html"
+  status = 200
+
+[[redirects]]
+  from = "/projects"
+  to = "/projects.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/terms.html"
+  status = 200
+
+[[redirects]]
+  from = "/sla"
+  to = "/sla.html"
+  status = 200
