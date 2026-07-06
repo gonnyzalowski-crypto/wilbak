@@ -55,6 +55,12 @@
   to = "/shop/index.html"
   status = 200
 
+# Shop assets are in root /assets/ directory
+[[redirects]]
+  from = "/shop/assets/*"
+  to = "/assets/:splat"
+  status = 200
+
 # API routes -> Netlify Functions
 [[redirects]]
   from = "/api/products"

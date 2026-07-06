@@ -679,9 +679,6 @@
     // === Theme Toggle ===
     const themeToggle = document.getElementById('themeToggle');
     const htmlEl = document.documentElement;
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      htmlEl.classList.add('dark');
-    }
     themeToggle.addEventListener('click', () => {
       htmlEl.classList.toggle('dark');
     });

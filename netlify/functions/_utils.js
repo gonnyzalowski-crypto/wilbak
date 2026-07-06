@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 const { parse } = require('csv-parse/sync');
 
 function readCsv(filename) {
@@ -41,20 +42,40 @@ async function sendTelegramMessage(text) {
   const token = keys.bot_token;
   const chatId = keys.chat_id;
   if (!token || !chatId || token.startsWith('REPLACE')) {
+    console.log('Telegram: skipping — no valid credentials');
     return false;
   }
-  try {
-    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' }),
-      signal: AbortSignal.timeout(10000)
+  const payload = JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' });
+  const options = {
+    hostname: 'api.telegram.org',
+    path: `/bot${token}/sendMessage`,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(payload)
+    }
+  };
+  return new Promise((resolve) => {
+    const req = https.request(options, (res) => {
+      let body = '';
+      res.on('data', (chunk) => { body += chunk; });
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          console.log('Telegram: message sent successfully');
+          resolve(true);
+        } else {
+          console.error('Telegram: API error', res.statusCode, body);
+          resolve(false);
+        }
+      });
     });
-    return res.status === 200;
-  } catch (e) {
-    console.error('Telegram send failed:', e);
-    return false;
-  }
+    req.on('error', (e) => {
+      console.error('Telegram: request failed', e.message);
+      resolve(false);
+    });
+    req.write(payload);
+    req.end();
+  });
 }
 
 function parseProducts(rows) {
