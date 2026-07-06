@@ -3,9 +3,20 @@ const path = require('path');
 const { parse } = require('csv-parse/sync');
 
 function readCsv(filename) {
-  const filePath = path.join(process.cwd(), 'shop', filename);
-  const content = fs.readFileSync(filePath, 'utf-8');
-  return parse(content, { columns: true, skip_empty_lines: true });
+  // On Netlify: CSVs are bundled in the function's data/ directory
+  // Locally: fall back to project root /shop/
+  const candidates = [
+    path.join(__dirname, 'data', filename),
+    path.join(process.cwd(), 'shop', filename),
+    path.join(process.cwd(), 'netlify', 'functions', 'data', filename)
+  ];
+  for (const filePath of candidates) {
+    try {
+      const content = fs.readFileSync(filePath, 'utf-8');
+      return parse(content, { columns: true, skip_empty_lines: true });
+    } catch {}
+  }
+  throw new Error(`CSV not found: ${filename}`);
 }
 
 function readKeys() {
