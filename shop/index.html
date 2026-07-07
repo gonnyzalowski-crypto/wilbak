@@ -466,6 +466,9 @@
           <button onclick="sendDetails()" class="btn-secondary">Send Receipt to Email</button>
         </div>
         <p class="caption" style="text-align:center;color:var(--color-ink-muted-48);margin-top:8px;">The PDF will use your browser's print dialog. Choose "Save as PDF" to download.</p>
+        <div style="text-align:center;margin-top:24px;">
+          <button onclick="goHomeShop()" class="btn-primary">Go Home</button>
+        </div>
       </div>
     </section>
 
@@ -741,7 +744,7 @@
       if (screenId === 'review') renderReview();
       if (screenId === 'summary') renderSummary();
       if (screenId === 'confirmed') renderConfirmed();
-      saveSession();
+      if (screenId !== 'confirmed') saveSession();
     }
 
     function goBack() {
@@ -754,6 +757,16 @@
     function goHome() {
       history = ['landing'];
       goTo('landing', false);
+    }
+
+    function goHomeShop() {
+      clearSession();
+      state.cart = products.map(p => ({ productId: p.id, qty: 0, config: p.configs[0]?.name || '' }));
+      state.payment = { method: null, coin: null, transactionId: null, email: '', name: '', address: '', zip: '', timeline: [] };
+      state.shipping = { type: 'standard', international: false, country: 'United States', receiverName: '', receiverAddress: '', receiverZip: '' };
+      history = ['landing'];
+      goTo('landing', false);
+      renderBuilder();
     }
 
     // === Theme Toggle ===
