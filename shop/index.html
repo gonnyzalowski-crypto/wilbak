@@ -475,9 +475,11 @@
         <div class="shop-confirmed-icon" style="background:var(--color-surface-2);color:var(--color-ink-muted-60);border-radius:50%;width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 24px;">!</div>
         <h2 class="display-lg" style="margin-bottom:16px;">Payment Could Not Be Completed</h2>
         <p style="font-size:17px;line-height:1.47;color:var(--color-ink-muted-80);margin-bottom:32px;">During contacting the client's financial institution, the amount being debited is beyond what is permitted for this transaction. Please try a different payment method or contact support for assistance.</p>
-        <div class="cta-row" style="justify-content:center;">
-          <button onclick="goTo('payment-method')" class="btn-primary">Try Different Payment Method</button>
+        <div class="cta-row" style="justify-content:center;flex-wrap:wrap;gap:12px;">
+          <button onclick="goTo('payment')" class="btn-primary">Try Different Payment Method</button>
           <button onclick="openSupport()" class="btn-secondary">Contact Support</button>
+          <button onclick="goTo('summary')" class="btn-secondary">Go to Cart</button>
+          <button onclick="goHome()" class="btn-secondary">Go to Home</button>
         </div>
       </div>
     </section>
@@ -590,6 +592,49 @@
     };
 
     let history = ['landing'];
+    const SESSION_KEY = 'wilbak_shop_session';
+    const SESSION_TTL = 6 * 60 * 60 * 1000; // 6 hours
+
+    function saveSession() {
+      try {
+        const data = {
+          state: state,
+          history: history,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(SESSION_KEY, JSON.stringify(data));
+      } catch (e) {
+        console.error('Failed to save session', e);
+      }
+    }
+
+    function loadSession() {
+      try {
+        const raw = localStorage.getItem(SESSION_KEY);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        if (Date.now() - data.timestamp > SESSION_TTL) {
+          localStorage.removeItem(SESSION_KEY);
+          return false;
+        }
+        if (data.state && data.state.cart && data.state.cart.some(c => c.qty > 0)) {
+          state.cart = data.state.cart;
+          state.payment = data.state.payment;
+          state.shipping = data.state.shipping;
+          history = data.history || ['landing'];
+          return true;
+        }
+      } catch (e) {
+        console.error('Failed to load session', e);
+      }
+      return false;
+    }
+
+    function clearSession() {
+      try {
+        localStorage.removeItem(SESSION_KEY);
+      } catch (e) {}
+    }
 
     // === Helpers ===
     const formatMoney = (n) => '$' + n.toFixed(2);
@@ -653,9 +698,18 @@
         ]);
         products = await prodRes.json();
         cryptoDetails = await cryptoRes.json();
-        state.cart = products.map(p => ({ productId: p.id, qty: 0, config: p.configs[0]?.name || '' }));
+        const hasSession = loadSession();
+        if (!hasSession) {
+          state.cart = products.map(p => ({ productId: p.id, qty: 0, config: p.configs[0]?.name || '' }));
+        }
         populateCategoryFilter();
         renderBuilder();
+        if (hasSession && history.length > 1) {
+          const lastScreen = history[history.length - 1];
+          if (lastScreen && lastScreen !== 'landing') {
+            goTo(lastScreen, false);
+          }
+        }
       } catch (e) {
         console.error('Failed to load data', e);
         document.getElementById('productList').innerHTML = '<div class="shop-error">Error loading products. Make sure the server is running.</div>';
@@ -687,6 +741,7 @@
       if (screenId === 'review') renderReview();
       if (screenId === 'summary') renderSummary();
       if (screenId === 'confirmed') renderConfirmed();
+      saveSession();
     }
 
     function goBack() {
@@ -810,6 +865,7 @@
       const item = state.cart.find(c => c.productId === id);
       item.qty = Math.max(0, item.qty + delta);
       renderBuilder();
+      saveSession();
     }
 
     // === Custom Build Screen ===
@@ -878,6 +934,7 @@
       const item = state.cart.find(c => c.productId === productId);
       item.qty = 1;
       item.config = getProduct(productId).configs[0]?.name || '';
+      saveSession();
       goTo('summary');
     }
 
@@ -973,12 +1030,14 @@
       state.shipping.receiverAddress = document.getElementById('receiverAddress').value || '';
       state.shipping.receiverZip = document.getElementById('receiverZip').value || '';
       updateSummaryTotals();
+      saveSession();
     }
 
     // === Payment Selection ===
     function selectPayment(method) {
       state.payment.method = method;
       state.payment.transactionId = generateTxId();
+      saveSession();
       if (method === 'stripe') {
         goTo('stripe-form');
       } else {
@@ -1068,7 +1127,7 @@
         { label: 'Printing receipt', done: 'Receipt printed' }
       ];
       if (total > 10000) {
-        runPhaseProgress('stripe', 5, steps, () => showPaymentDeclined());
+        runPhaseProgress('stripe', 3, steps, () => showPaymentDeclined());
       } else {
         runPhaseProgress('stripe', 15, steps, () => showConfirmed());
       }
@@ -1155,7 +1214,7 @@
         { label: 'Finalizing receipt', done: 'Receipt finalized' }
       ];
       if (total > 10000) {
-        runPhaseProgress('crypto', 5, steps, () => showPaymentDeclined());
+        runPhaseProgress('crypto', 7, steps, () => showPaymentDeclined());
       } else {
         runPhaseProgress('crypto', 15, steps, () => showConfirmed());
       }
@@ -1163,6 +1222,7 @@
 
     // === Confirmed / Receipt ===
     function showConfirmed() {
+      clearSession();
       goTo('confirmed');
     }
 
