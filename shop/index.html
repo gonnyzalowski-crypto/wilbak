@@ -542,23 +542,35 @@
   <!-- Support Modal -->
   <div id="supportModal" class="shop-modal-hidden shop-modal-overlay">
     <div class="shop-modal">
-      <h3 class="display-md" style="font-size:24px;margin-bottom:8px;">Contact Support</h3>
-      <p class="caption" style="color:var(--color-ink-muted-48);margin-bottom:16px;">Send a message to our team. We will reply via Telegram.</p>
-      <div class="form-group">
-        <label>Your Name</label>
-        <input id="supportName" type="text" placeholder="John Doe" class="shop-input">
+      <div id="supportFormArea">
+        <h3 class="display-md" style="font-size:24px;margin-bottom:8px;">Contact Support</h3>
+        <p class="caption" style="color:var(--color-ink-muted-48);margin-bottom:16px;">Send a message to our team. We will reply via Telegram.</p>
+        <div class="form-group">
+          <label>Your Name</label>
+          <input id="supportName" type="text" placeholder="John Doe" class="shop-input">
+        </div>
+        <div class="form-group">
+          <label>Your Email</label>
+          <input id="supportEmail" type="email" placeholder="you@example.com" class="shop-input">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea id="supportMessage" rows="4" placeholder="How can we help you?" class="shop-input" style="resize:vertical;min-height:100px;"></textarea>
+        </div>
+        <div class="shop-modal-actions">
+          <button onclick="closeSupport()" class="btn-secondary">Cancel</button>
+          <button onclick="sendSupport()" class="btn-primary">Submit</button>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Your Email</label>
-        <input id="supportEmail" type="email" placeholder="you@example.com" class="shop-input">
+      <div id="supportProcessingArea" style="display:none;text-align:center;padding:24px 0;">
+        <div class="shop-spinner-wrap" style="margin-bottom:16px;"><div class="shop-spinner"></div></div>
+        <p class="caption-strong" style="color:var(--color-primary);">Sending your message...</p>
       </div>
-      <div class="form-group">
-        <label>Message</label>
-        <textarea id="supportMessage" rows="4" placeholder="How can we help you?" class="shop-input" style="resize:vertical;min-height:100px;"></textarea>
-      </div>
-      <div class="shop-modal-actions">
-        <button onclick="closeSupport()" class="btn-secondary">Cancel</button>
-        <button onclick="sendSupport()" class="btn-primary">Send Message</button>
+      <div id="supportSuccessArea" style="display:none;text-align:center;padding:24px 0;">
+        <div class="shop-confirmed-icon" style="background:#22c55e;color:#fff;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px;">✓</div>
+        <h3 class="display-md" style="font-size:24px;margin-bottom:8px;">Message Sent</h3>
+        <p class="caption" style="color:var(--color-ink-muted-48);margin-bottom:24px;">Your support ticket has been submitted. Our team will get back to you soon.</p>
+        <button onclick="closeSupport()" class="btn-primary">Close</button>
       </div>
     </div>
   </div>
@@ -1258,12 +1270,21 @@
 
     // === Support ===
     function openSupport() {
+      document.getElementById('supportFormArea').style.display = '';
+      document.getElementById('supportProcessingArea').style.display = 'none';
+      document.getElementById('supportSuccessArea').style.display = 'none';
       document.getElementById('supportModal').classList.remove('shop-modal-hidden');
       document.getElementById('supportName').focus();
     }
 
     function closeSupport() {
       document.getElementById('supportModal').classList.add('shop-modal-hidden');
+      document.getElementById('supportFormArea').style.display = '';
+      document.getElementById('supportProcessingArea').style.display = 'none';
+      document.getElementById('supportSuccessArea').style.display = 'none';
+      document.getElementById('supportName').value = '';
+      document.getElementById('supportEmail').value = '';
+      document.getElementById('supportMessage').value = '';
     }
 
     async function sendSupport() {
@@ -1273,6 +1294,8 @@
       if (!name) return alert('Please enter your name.');
       if (!email || !email.includes('@')) return alert('Please enter a valid email address.');
       if (!message) return alert('Please enter a message.');
+      document.getElementById('supportFormArea').style.display = 'none';
+      document.getElementById('supportProcessingArea').style.display = '';
       try {
         const res = await fetch('/api/support', {
           method: 'POST',
@@ -1280,17 +1303,17 @@
           body: JSON.stringify({ name, email, message })
         });
         const data = await res.json();
-        if (data.status === 'sent') {
-          alert('Message sent. Support will contact you soon.');
-          document.getElementById('supportName').value = '';
-          document.getElementById('supportEmail').value = '';
-          document.getElementById('supportMessage').value = '';
-          closeSupport();
+        document.getElementById('supportProcessingArea').style.display = 'none';
+        if (data.status === 'sent' || data.status === 'received') {
+          document.getElementById('supportSuccessArea').style.display = '';
         } else {
+          document.getElementById('supportFormArea').style.display = '';
           alert('Message could not be sent. Please try again later.');
         }
       } catch (e) {
         console.error('Support send failed', e);
+        document.getElementById('supportProcessingArea').style.display = 'none';
+        document.getElementById('supportFormArea').style.display = '';
         alert('Message could not be sent. Please try again later.');
       }
     }
