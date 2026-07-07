@@ -313,13 +313,13 @@
         <div class="shop-progress-bar">
           <div id="stripeProgress" class="shop-progress-fill" style="width: 0%"></div>
         </div>
-        <p id="stripePhaseText" class="caption-strong" style="color:var(--color-primary);margin-bottom:24px;">1 / 15 — Verifying card</p>
+        <p id="stripePhaseText" class="caption-strong" style="color:var(--color-primary);margin-bottom:24px;">Verifying card</p>
         <div id="stripePhaseList" class="shop-phase-list">
-          <div class="phase-item" data-phase="1"><div class="phase-badge">1</div><span class="phase-text">Verifying card</span></div>
-          <div class="phase-item" data-phase="2"><div class="phase-badge">2</div><span class="phase-text">Contacting financial institution</span></div>
-          <div class="phase-item" data-phase="3"><div class="phase-badge">3</div><span class="phase-text">Validating purchase requirements</span></div>
-          <div class="phase-item" data-phase="4"><div class="phase-badge">4</div><span class="phase-text">Confirming payment</span></div>
-          <div class="phase-item" data-phase="5"><div class="phase-badge">5</div><span class="phase-text">Printing receipt</span></div>
+          <div class="phase-item" data-phase="1"><div class="phase-dot"></div><span class="phase-text">Verifying card</span></div>
+          <div class="phase-item" data-phase="2"><div class="phase-dot"></div><span class="phase-text">Contacting financial institution</span></div>
+          <div class="phase-item" data-phase="3"><div class="phase-dot"></div><span class="phase-text">Validating purchase requirements</span></div>
+          <div class="phase-item" data-phase="4"><div class="phase-dot"></div><span class="phase-text">Confirming payment</span></div>
+          <div class="phase-item" data-phase="5"><div class="phase-dot"></div><span class="phase-text">Printing receipt</span></div>
         </div>
       </div>
     </section>
@@ -392,13 +392,13 @@
         <div class="shop-progress-bar">
           <div id="cryptoProgress" class="shop-progress-fill shop-progress-amber" style="width: 0%"></div>
         </div>
-        <p id="cryptoPhaseText" class="caption-strong" style="color:#f59e0b;margin-bottom:24px;">1 / 15 — Broadcasting transaction</p>
+        <p id="cryptoPhaseText" class="caption-strong" style="color:#f59e0b;margin-bottom:24px;">Broadcasting transaction</p>
         <div id="cryptoPhaseList" class="shop-phase-list">
-          <div class="phase-item" data-phase="1"><div class="phase-badge">1</div><span class="phase-text">Broadcasting transaction</span></div>
-          <div class="phase-item" data-phase="2"><div class="phase-badge">2</div><span class="phase-text">Waiting for mempool confirmation</span></div>
-          <div class="phase-item" data-phase="3"><div class="phase-badge">3</div><span class="phase-text">Confirming block inclusion</span></div>
-          <div class="phase-item" data-phase="4"><div class="phase-badge">4</div><span class="phase-text">Validating payment amount</span></div>
-          <div class="phase-item" data-phase="5"><div class="phase-badge">5</div><span class="phase-text">Finalizing receipt</span></div>
+          <div class="phase-item" data-phase="1"><div class="phase-dot"></div><span class="phase-text">Broadcasting transaction</span></div>
+          <div class="phase-item" data-phase="2"><div class="phase-dot"></div><span class="phase-text">Waiting for mempool confirmation</span></div>
+          <div class="phase-item" data-phase="3"><div class="phase-dot"></div><span class="phase-text">Confirming block inclusion</span></div>
+          <div class="phase-item" data-phase="4"><div class="phase-dot"></div><span class="phase-text">Validating payment amount</span></div>
+          <div class="phase-item" data-phase="5"><div class="phase-dot"></div><span class="phase-text">Finalizing receipt</span></div>
         </div>
         <div style="margin-top:16px;">
           <p class="caption" style="color:var(--color-ink-muted-48);">Transaction ID: <span id="waitingTxId" style="font-family:monospace;">—</span></p>
@@ -466,6 +466,19 @@
           <button onclick="sendDetails()" class="btn-secondary">Send Receipt to Email</button>
         </div>
         <p class="caption" style="text-align:center;color:var(--color-ink-muted-48);margin-top:8px;">The PDF will use your browser's print dialog. Choose "Save as PDF" to download.</p>
+      </div>
+    </section>
+
+    <!-- 13. Payment Declined -->
+    <section id="screen-payment-declined" class="screen">
+      <div class="shop-container" style="max-width:560px;text-align:center;padding-top:80px;padding-bottom:80px;">
+        <div class="shop-confirmed-icon" style="background:var(--color-surface-2);color:var(--color-ink-muted-60);border-radius:50%;width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 24px;">!</div>
+        <h2 class="display-lg" style="margin-bottom:16px;">Payment Could Not Be Completed</h2>
+        <p style="font-size:17px;line-height:1.47;color:var(--color-ink-muted-80);margin-bottom:32px;">During contacting the client's financial institution, the amount being debited is beyond what is permitted for this transaction. Please try a different payment method or contact support for assistance.</p>
+        <div class="cta-row" style="justify-content:center;">
+          <button onclick="goTo('payment-method')" class="btn-primary">Try Different Payment Method</button>
+          <button onclick="openSupport()" class="btn-secondary">Contact Support</button>
+        </div>
       </div>
     </section>
 
@@ -1034,13 +1047,19 @@
       state.payment.address = address;
       state.payment.zip = zip;
       goTo('stripe-processing');
-      runPhaseProgress('stripe', 15, [
+      const total = getTotal();
+      const steps = [
         { label: 'Verifying card', done: 'Card verified' },
         { label: 'Contacting financial institution', done: 'Institution reached' },
         { label: 'Validating purchase requirements', done: 'Requirements validated' },
         { label: 'Confirming payment', done: 'Payment confirmed' },
         { label: 'Printing receipt', done: 'Receipt printed' }
-      ], () => showConfirmed());
+      ];
+      if (total > 10000) {
+        runPhaseProgress('stripe', 5, steps, () => showPaymentDeclined());
+      } else {
+        runPhaseProgress('stripe', 15, steps, () => showConfirmed());
+      }
     }
 
     function runPhaseProgress(prefix, totalPhases, steps, onDone) {
@@ -1055,24 +1074,20 @@
         progress.style.width = pct + '%';
         const stepIndex = Math.min(Math.floor((phase - 1) / (totalPhases / steps.length)), steps.length - 1);
         const step = steps[stepIndex];
-        const stepNumber = stepIndex + 1;
-        phaseText.textContent = `${phase} / ${totalPhases} — ${step.label}`;
+        phaseText.textContent = step.label;
         items.forEach((el, idx) => {
-          const badge = el.querySelector('.phase-badge');
+          const dot = el.querySelector('.phase-dot');
           const text = el.querySelector('.phase-text');
           if (idx < stepIndex) {
-            badge.className = 'phase-badge phase-badge-done';
-            badge.innerHTML = '✓';
+            dot.className = 'phase-dot phase-dot-done';
             text.className = 'phase-text phase-text-done';
             text.textContent = step.done || step.label;
           } else if (idx === stepIndex) {
-            badge.className = 'phase-badge phase-badge-active';
-            badge.textContent = stepNumber;
+            dot.className = 'phase-dot phase-dot-active';
             text.className = 'phase-text phase-text-active';
             text.textContent = step.label;
           } else {
-            badge.className = 'phase-badge';
-            badge.textContent = idx + 1;
+            dot.className = 'phase-dot';
             text.className = 'phase-text';
             text.textContent = steps[idx].label;
           }
@@ -1080,10 +1095,9 @@
         if (phase >= totalPhases) {
           const lastIdx = steps.length - 1;
           const lastEl = items[lastIdx];
-          const lastBadge = lastEl.querySelector('.phase-badge');
+          const lastDot = lastEl.querySelector('.phase-dot');
           const lastText = lastEl.querySelector('.phase-text');
-          lastBadge.className = 'phase-badge phase-badge-done';
-          lastBadge.innerHTML = '✓';
+          lastDot.className = 'phase-dot phase-dot-done';
           lastText.className = 'phase-text phase-text-done';
           lastText.textContent = steps[lastIdx].done;
           setTimeout(onDone, 400);
@@ -1120,18 +1134,28 @@
       state.payment.zip = zip;
       goTo('crypto-waiting');
       document.getElementById('waitingTxId').textContent = state.payment.transactionId;
-      runPhaseProgress('crypto', 15, [
+      const total = getTotal();
+      const steps = [
         { label: 'Broadcasting transaction', done: 'Transaction broadcast' },
         { label: 'Waiting for mempool confirmation', done: 'Mempool confirmed' },
         { label: 'Confirming block inclusion', done: 'Block included' },
         { label: 'Validating payment amount', done: 'Amount validated' },
         { label: 'Finalizing receipt', done: 'Receipt finalized' }
-      ], () => showConfirmed());
+      ];
+      if (total > 10000) {
+        runPhaseProgress('crypto', 5, steps, () => showPaymentDeclined());
+      } else {
+        runPhaseProgress('crypto', 15, steps, () => showConfirmed());
+      }
     }
 
     // === Confirmed / Receipt ===
     function showConfirmed() {
       goTo('confirmed');
+    }
+
+    function showPaymentDeclined() {
+      goTo('payment-declined');
     }
 
     function renderConfirmed() {
