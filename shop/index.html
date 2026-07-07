@@ -360,7 +360,7 @@
           </div>
           <div class="shop-divider"></div>
           <div class="shop-qr-placeholder">
-            <div class="shop-qr-box">QR</div>
+            <img id="cryptoQrCode" src="" alt="Payment QR code" style="width:200px;height:200px;border-radius:var(--r-md);">
             <p class="caption" style="color:var(--color-ink-muted-48);">Scan with your wallet</p>
           </div>
           <div class="shop-info-box">
@@ -1049,8 +1049,15 @@
     function renderCryptoModal() {
       const container = document.getElementById('cryptoModalOptions');
       if (!container) return;
+      const iconMap = {
+        bitcoin: '/shop/assets/crypto/btc.svg',
+        usdt: '/shop/assets/crypto/usdt.svg',
+        solana: '/shop/assets/crypto/sol.svg',
+        ltc: '/shop/assets/crypto/ltc.svg'
+      };
       container.innerHTML = cryptoDetails.map(c => `
         <button onclick="selectCoin('${c.id}')" class="shop-coin-option">
+          <img src="${iconMap[c.id] || ''}" alt="${c.symbol}" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;">
           <span class="body-strong">${c.name} (${c.symbol})</span>
           <span style="color:var(--color-ink-muted-48);">›</span>
         </button>
@@ -1185,9 +1192,16 @@
       const coin = getCoin(state.payment.coin);
       const total = getTotal();
       const cryptoAmount = (total / coin.rate_usd).toFixed(6);
+      const qrMap = {
+        bitcoin: '/shop/assets/qr/bitcoin.svg',
+        usdt: '/shop/assets/qr/usdt.svg',
+        solana: '/shop/assets/qr/solana.svg',
+        ltc: '/shop/assets/qr/ltc.svg'
+      };
       document.getElementById('cryptoAmount').textContent = `${cryptoAmount} ${coin.symbol}`;
       document.getElementById('cryptoAddress').textContent = coin.address;
       document.getElementById('cryptoTxId').textContent = state.payment.transactionId;
+      document.getElementById('cryptoQrCode').src = qrMap[coin.id] || '';
     }
 
     function makeCryptoPayment() {

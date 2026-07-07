@@ -1,7 +1,5 @@
 id,name,symbol,network,address,decimals,rate_usd,color,confirmation_time_minutes,description
-bitcoin,Bitcoin,BTC,on-chain,Wallet address will be generated at checkout,8,65000,orange-500,30,Peer-to-peer digital currency with decentralized consensus.
-usdt,Tether,USDT,ERC-20,Wallet address will be generated at checkout,6,1.00,green-500,5,Stablecoin pegged to the US dollar on Ethereum network.
-eth,Ethereum,ETH,ERC-20,Wallet address will be generated at checkout,18,3500,indigo-500,15,Native asset of the Ethereum smart-contract platform.
-solana,Solana,SOL,Solana,Wallet address will be generated at checkout,9,150,purple-500,8,High-throughput blockchain with low fees and fast settlement.
-ltc,Litecoin,LTC,on-chain,Wallet address will be generated at checkout,8,80,gray-500,20,Early Bitcoin fork focused on faster transaction times.
-monero,Monero,XMR,on-chain,Wallet address will be generated at checkout,12,170,rose-500,20,Privacy-focused cryptocurrency with ring signatures.
+bitcoin,Bitcoin,BTC,on-chain,bc1qmmtrmkpq6m6ha39sx3eanj465tjx400wpjs0q3,8,65000,orange-500,30,Peer-to-peer digital currency with decentralized consensus.
+usdt,Tether,USDT,ERC-20,0xb681E1667BaDd158e8633203ae3089B089dD406f,6,1.00,green-500,5,Stablecoin pegged to the US dollar on Ethereum network.
+solana,Solana,SOL,Solana,HEN8cLKmbgotwCd7ZiRGhKwqZfgpC2fuMteKjocY5PJD,9,150,purple-500,8,High-throughput blockchain with low fees and fast settlement.
+ltc,Litecoin,LTC,on-chain,LZgUkNLmt6ih4fvLvPCRyEg6Ts9QXkmPxX,8,80,gray-500,20,Early Bitcoin fork focused on faster transaction times.

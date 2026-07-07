@@ -55,10 +55,15 @@
   to = "/shop/index.html"
   status = 200
 
-# Shop assets are in root /assets/ directory
+# Shop root-level assets (01.png, 02.png) are in root /assets/ directory
 [[redirects]]
-  from = "/shop/assets/*"
-  to = "/assets/:splat"
+  from = "/shop/assets/01.png"
+  to = "/assets/01.png"
+  status = 200
+
+[[redirects]]
+  from = "/shop/assets/02.png"
+  to = "/assets/02.png"
   status = 200
 
 # API routes -> Netlify Functions
