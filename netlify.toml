@@ -83,6 +83,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/payment-failed"
+  to = "/.netlify/functions/payment-failed"
+  status = 200
+
+[[redirects]]
   from = "/api/support"
   to = "/.netlify/functions/support"
   status = 200

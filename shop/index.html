@@ -1255,6 +1255,22 @@
 
     function showPaymentDeclined() {
       goTo('payment-declined');
+      try {
+        const payload = {
+          cart: state.cart.filter(c => c.qty > 0),
+          shipping: state.shipping,
+          payment: state.payment,
+          total: getTotal(),
+          reason: 'Amount exceeds permitted transaction limit'
+        };
+        fetch('/api/payment-failed', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (e) {
+        console.error('Failed to report payment failure', e);
+      }
     }
 
     function renderConfirmed() {

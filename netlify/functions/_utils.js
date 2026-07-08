@@ -78,6 +78,54 @@ async function sendTelegramMessage(text) {
   });
 }
 
+async function sendTelegramDocument(buffer, filename, caption) {
+  const keys = readKeys();
+  const token = keys.bot_token;
+  const chatId = keys.chat_id;
+  if (!token || !chatId || token.startsWith('REPLACE')) {
+    console.log('Telegram: skipping document — no valid credentials');
+    return false;
+  }
+  const boundary = '----FormBoundary' + Math.random().toString(36).substring(2, 15);
+  const captionField = caption
+    ? Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="caption"\r\n\r\n${caption}\r\n`)
+    : Buffer.from('');
+  const chatIdField = Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="chat_id"\r\n\r\n${chatId}\r\n`);
+  const fileHeader = Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="document"; filename="${filename}"\r\nContent-Type: application/pdf\r\n\r\n`);
+  const fileFooter = Buffer.from(`\r\n--${boundary}--\r\n`);
+  const body = Buffer.concat([chatIdField, captionField, fileHeader, buffer, fileFooter]);
+  const options = {
+    hostname: 'api.telegram.org',
+    path: `/bot${token}/sendDocument`,
+    method: 'POST',
+    headers: {
+      'Content-Type': `multipart/form-data; boundary=${boundary}`,
+      'Content-Length': body.length
+    }
+  };
+  return new Promise((resolve) => {
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          console.log('Telegram: document sent successfully');
+          resolve(true);
+        } else {
+          console.error('Telegram: document API error', res.statusCode, data);
+          resolve(false);
+        }
+      });
+    });
+    req.on('error', (e) => {
+      console.error('Telegram: document request failed', e.message);
+      resolve(false);
+    });
+    req.write(body);
+    req.end();
+  });
+}
+
 function parseProducts(rows) {
   return rows.map(row => {
     const price = parseFloat(row.price) || 0;
@@ -118,4 +166,4 @@ function generateOrderId() {
   return id;
 }
 
-module.exports = { readCsv, readKeys, sendTelegramMessage, parseProducts, generateOrderId };
+module.exports = { readCsv, readKeys, sendTelegramMessage, sendTelegramDocument, parseProducts, generateOrderId };
